@@ -177,7 +177,7 @@ def fig_lifecycle():
     out.append('</svg>')
     svg = "\n".join(out)
     return f"""<figure>
-    <figcaption><strong>Figure 2.</strong> Life cycle of each benchmark, in order of release; the number before each name is its entry number. Hollow markers have an approximate position because the month is not stated in our sources. Only events with a source and a stated date are plotted, so absence of a marker does not mean absence of use. Hover a marker for its source. Data: release dates from the papers; adoption and replacement events from the system cards, blog posts, evaluations and later benchmarks listed in References (this script, <code>figures/build_figures.py</code>, holds each date and source).</figcaption>
+    <figcaption><strong>Figure 2.</strong> Life cycle of each benchmark, in release order; the number is the entry number. Hollow markers have an approximate date. Only events with a source and a stated date are plotted, so a missing marker does not mean no use. Hover a marker for its source. Data: <code>figures/build_figures.py</code>.</figcaption>
     <div class="sr-only">Text description of Figure 2: fifteen rows, one per benchmark, on a 2020 to 2026 time axis. Older benchmarks such as RealToxicityPrompts and TruthfulQA show use in 2023 reports and little after. StrongREJECT, WMDP, VCT, MASK and ART each show a saturation, replacement or retirement marker within one to two years of first lab use. IPI Arena, released in March 2026, shows three lab uses by October 2026 and no saturation marker yet.</div>
     <div class="scroll-x"><div style="min-width:760px">{svg}</div></div>
   </figure>"""

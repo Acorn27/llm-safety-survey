@@ -101,10 +101,15 @@
     figure { margin: 24px 0; }
     figcaption { font-size: .9rem; color: var(--muted); margin: 8px 0; }
     .scroll-x { overflow-x: auto; }
-    .map { display: grid; grid-template-columns: 120px repeat(6, minmax(110px, 1fr)); gap: 6px; font-size: .82rem; min-width: 820px; }
+    .map { display: grid; grid-template-columns: 150px repeat(6, minmax(100px, 1fr)); gap: 6px; font-size: .8rem; min-width: 800px; }
     .map .h { font-weight: 700; text-align: center; padding: 4px 0; border-bottom: 2px solid var(--text); }
-    .map .r { font-weight: 600; padding: 8px 4px; color: var(--muted); display: flex; align-items: center; }
-    .map .c { background: var(--surface); border: 1px solid var(--divider); border-radius: 6px; padding: 6px 8px; min-height: 54px; display: flex; flex-direction: column; gap: 3px; justify-content: center; }
+    .map .r { padding: 8px 6px 8px 2px; display: flex; flex-direction: column; justify-content: center; gap: 1px; }
+    .map .r b { color: var(--text); font-size: .92rem; }
+    .map .r span { color: var(--muted); font-weight: 600; font-size: .78rem; }
+    .map .r i { color: var(--muted); font-weight: 400; font-size: .74rem; line-height: 1.3; margin-top: 3px; }
+    .map .c a { overflow-wrap: normal; word-break: normal; line-height: 1.3; }
+    .map .c .en { display: inline-flex; min-width: 18px; height: 18px; align-items: center; justify-content: center; border-radius: 999px; background: var(--btn-bg); color: var(--btn-fg); font-size: .66rem; margin-right: 5px; vertical-align: 1px; }
+    .map .c { background: var(--surface); border: 1px solid var(--divider); border-radius: 6px; padding: 6px 5px; min-height: 54px; display: flex; flex-direction: column; gap: 3px; justify-content: center; }
     .map .c.empty { background: transparent; border-style: dashed; }
     .map .c a { font-weight: 600; }
     .map .c .m { font-weight: 400; color: var(--muted); font-size: .76rem; }
@@ -267,6 +272,24 @@
     blockquote.pullquote::before { content: "\201C"; position: absolute; left: 14px; top: -2px; font-size: 3.6rem; line-height: 1; font-family: Georgia, "Times New Roman", serif; color: var(--accent); }
     blockquote.pullquote p { margin: 0 0 8px; font-size: 1.2rem; line-height: 1.5; font-style: italic; font-weight: 500; color: var(--text); }
     blockquote.pullquote footer { border: 0; padding: 0; text-align: left; font-size: .88rem; color: var(--muted); }
+    /* topic explanations in Scope */
+    .topic-defs { margin: 0 10px 14px; display: grid; gap: 6px; }
+    .topic { border: 1px solid var(--divider); border-left: 5px solid currentColor; border-radius: 0 8px 8px 0; background: var(--surface-soft); padding: 8px 14px 2px; }
+    .topic.g-out { color: var(--accent); } .topic.g-truth { color: var(--interp); }
+    .topic.g-cap { color: var(--bad); } .topic.g-agent { color: var(--good); }
+    .topic-head { font-weight: 700; display: flex; align-items: baseline; gap: 10px; margin-bottom: 4px; }
+    .topic-head .tn { margin-left: auto; font-size: .75rem; font-weight: 600; color: var(--muted); }
+    .topic p { margin: 0 0 8px; color: var(--text); font-size: .95rem; line-height: 1.6; }
+    .topic p.tb { color: var(--muted); font-size: .88rem; }
+    .topic p.tb b { color: var(--text); font-weight: 600; }
+    details.topic-all { margin: 0 10px 14px; border: 1px solid var(--divider); border-radius: 10px; background: var(--surface); padding: 0 14px; }
+    details.topic-all > summary { cursor: pointer; font-weight: 700; padding: 10px 0; list-style: none; display: flex; align-items: baseline; gap: 10px; }
+    details.topic-all > summary::-webkit-details-marker { display: none; }
+    details.topic-all > summary::before { content: "▸"; display: inline-block; color: var(--accent); transition: transform .15s; }
+    details.topic-all[open] > summary::before { transform: rotate(90deg); }
+    details.topic-all > .topic-defs { margin: 0 0 12px; }
+    details.fine-print { margin-top: 4px; }
+    details.fine-print p { margin: 0 0 12px; font-size: .9rem; line-height: 1.65; color: var(--muted); }
     .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
     sup.ev { font-size: .7em; color: var(--muted); margin-left: 1px; cursor: help; }
     .src-line { margin-top: 12px; padding-top: 8px; border-top: 1px dashed var(--divider); font-size: .8rem; color: var(--muted); }
@@ -397,41 +420,59 @@
       </div>
       <div class="cloud-outrow"><span class="cloud-outlab">We leave out</span> <span class="cloud-chip out-of-scope">general-capability benchmarks</span> <span class="cloud-chip out-of-scope">standalone bias sets</span></div>
     </div>
+    <details class="topic-all">
+      <summary>What does each topic mean?</summary>
+      <div class="topic-defs">
+      <div class="topic g-out"><div class="topic-head">jailbreaks &amp; refusal<span class="tn">4 benchmarks</span></div><p>Whether a model can be tricked into doing what it should refuse, and whether it refuses when it should. A <i>jailbreak</i> is a prompt crafted to get around the model's safety training; refusal tests check that it says no to harmful requests.</p><p class="tb"><b>Covered by:</b> AdvBench (4), HarmBench (7), JailbreakBench (8), StrongREJECT (9)</p></div>
+      <div class="topic g-out"><div class="topic-head">toxicity<span class="tn">2 benchmarks</span></div><p>Whether a model writes hateful, insulting or otherwise toxic text, even from an ordinary prompt. It is usually scored by an automatic classifier.</p><p class="tb"><b>Covered by:</b> RealToxicityPrompts (1), DecodingTrust (5)</p></div>
+      <div class="topic g-agent"><div class="topic-head">agent security<span class="tn">3 benchmarks</span></div><p>Whether an AI agent that uses tools, such as email, files or a browser, can be hijacked into a harmful action by instructions hidden in the data it reads. This attack is called <i>prompt injection</i>.</p><p class="tb"><b>Covered by:</b> AgentDojo (11), ART (14), IPI Arena (15)</p></div>
+      <div class="topic g-truth"><div class="topic-head">honesty<span class="tn">1 benchmark</span></div><p>Whether a model says what it believes, or lies when pressured to. This is different from accuracy: a model can know the truth and still state a falsehood.</p><p class="tb"><b>Covered by:</b> MASK (13)</p></div>
+      <div class="topic g-cap"><div class="topic-head">dangerous-capability proxies<span class="tn">2 benchmarks</span></div><p>Stand-in tests for knowledge that could help cause serious harm, for example in biology or cybersecurity. They exist so that the hazardous material itself never has to be published.</p><p class="tb"><b>Covered by:</b> WMDP (10), VCT (12)</p></div>
+      <div class="topic g-out"><div class="topic-head">over-refusal<span class="tn">2 benchmarks</span></div><p>Whether a model refuses harmless requests that only look unsafe, such as "How can I kill a Python process?". A model that refuses everything looks safe but is not useful.</p><p class="tb"><b>Covered by:</b> XSTest (6), JailbreakBench (8, through its benign twins)</p></div>
+      <div class="topic g-truth"><div class="topic-head">truthfulness<span class="tn">1 benchmark</span></div><p>Whether a model avoids repeating common falsehoods, such as popular misconceptions, instead of giving the true answer.</p><p class="tb"><b>Covered by:</b> TruthfulQA (2)</p></div>
+          </div>
+    </details>
   </div>
-  <p><b>The story in one paragraph.</b> Evaluation began by asking <i>what a model says</i> (toxic text, then falsehoods). Once chat models and jailbreaks arrived, it asked <i>whether the model can be made to say bad things</i>, and first had to learn how to measure that fairly. Then it moved to <i>what a model knows</i> (dangerous knowledge), <i>whether it is honest</i> and, finally, <i>what an agent actually does</i>. At every step, the previous generation of benchmarks saturated, was shown to be flawed, or was replaced.</p>
+  <p><b>Taxonomy.</b> We organize the 15 benchmarks by the question each one asks of a model. Figure 1 is that taxonomy: the rows are the four categories, and the columns are time.</p>
 
   <figure>
-    <figcaption><strong>Figure 1.</strong> Four lineages of safety evaluation. Read each row left to right: a benchmark exists because the previous one in its row hit a wall. Dashed boxes mark a missing step.</figcaption>
-    <div class="sr-only">Text description of Figure 1: a grid with four rows and six time columns. Harmful output: RealToxicityPrompts (2020–21), Anthropic red team (2022), AdvBench, XSTest and DecodingTrust (2023), HarmBench, JailbreakBench and StrongREJECT (2024). Truth and honesty: TruthfulQA (2020–21) and MASK (2025). Dangerous capability: WMDP (2024) and VCT (2025). Agents: AgentDojo (2024), ART (2025) and IPI Arena (2026). Empty cells mean no benchmark in this survey fills that step.</div>
-    <div class="scroll-x" role="group" aria-label="Figure 1, described in the text above">
+    <figcaption><strong>Figure 1.</strong> Taxonomy of the 15 benchmarks. Each row is a category, defined by the question it asks of a model; the number on each benchmark is its entry number. Read each row left to right: within a category, a benchmark was followed by a successor that addressed a limit of the one before. Dashed boxes mark a missing step.</figcaption>
+    <div class="sr-only">Text description of Figure 1: a grid with four rows (categories) and six time columns. What a model says (harmful output), asking whether it produces harmful text and can be made to: RealToxicityPrompts (1) in 2020–21, Anthropic red team (3) in 2022, AdvBench (4), DecodingTrust (5) and XSTest (6) in 2023, HarmBench (7), JailbreakBench (8) and StrongREJECT (9) in 2024. What is true (truthfulness and honesty), asking whether it repeats falsehoods or lies under pressure: TruthfulQA (2) in 2020–21 and MASK (13) in 2025. What it knows (dangerous capability), asking whether it holds hazardous knowledge: WMDP (10) in 2024 and VCT (12) in 2025. What it does (agents), asking whether an agent can be hijacked into harmful actions: AgentDojo (11) in 2024, ART (14) in 2025 and IPI Arena (15) in 2026. Empty cells mean no benchmark in this survey fills that step.</div>
+    <div class="scroll-x">
     <div class="map">
       <div></div><div class="h">2020–21</div><div class="h">2022</div><div class="h">2023</div><div class="h">2024</div><div class="h">2025</div><div class="h">2026</div>
 
-      <div class="r">What it says<br>(harmful output)</div>
-      <div class="c"><a href="#p-rtp">RealToxicityPrompts</a><span class="m">toxic continuation</span></div>
-      <div class="c"><a href="#p-redteam">Anthropic red team</a><span class="m">human attacks</span></div>
-      <div class="c"><a href="#p-advbench">AdvBench</a><a href="#p-xstest">XSTest</a><a href="#p-dt">DecodingTrust</a></div>
-      <div class="c"><a href="#p-hb">HarmBench</a><a href="#p-jbb">JailbreakBench</a><a href="#p-sr">StrongREJECT</a></div>
+      <div class="r"><b>What a model says</b><span>(harmful output)</span><i>Does it produce harmful text, and can it be made to?</i></div>
+      <div class="c"><a href="#p-rtp"><b class="en">1</b>RealToxicity<wbr>Prompts</a><span class="m">toxic continuation</span></div>
+      <div class="c"><a href="#p-redteam"><b class="en">3</b>Anthropic red team</a><span class="m">human attacks</span></div>
+      <div class="c"><a href="#p-advbench"><b class="en">4</b>AdvBench</a><a href="#p-dt"><b class="en">5</b>Decoding<wbr>Trust</a><a href="#p-xstest"><b class="en">6</b>XSTest</a></div>
+      <div class="c"><a href="#p-hb"><b class="en">7</b>HarmBench</a><a href="#p-jbb"><b class="en">8</b>Jailbreak<wbr>Bench</a><a href="#p-sr"><b class="en">9</b>Strong<wbr>REJECT</a></div>
       <div class="c empty"><span class="m">no new open benchmark with multi-lab adoption</span></div>
       <div class="c empty"></div>
 
-      <div class="r">What is true<br>(truth, honesty)</div>
-      <div class="c"><a href="#p-tqa">TruthfulQA</a><span class="m">imitative falsehoods</span></div>
-      <div class="c empty"></div><div class="c empty"></div><div class="c empty"></div>
-      <div class="c"><a href="#p-mask">MASK</a><span class="m">lying under pressure</span></div>
+      <div class="r"><b>What is true</b><span>(truthfulness and honesty)</span><i>Does it repeat falsehoods, and does it lie when pressured?</i></div>
+      <div class="c"><a href="#p-tqa"><b class="en">2</b>Truthful<wbr>QA</a><span class="m">imitative falsehoods</span></div>
+      <div class="c empty"></div>
+      <div class="c empty"></div>
+      <div class="c empty"></div>
+      <div class="c"><a href="#p-mask"><b class="en">13</b>MASK</a><span class="m">lying under pressure</span></div>
       <div class="c empty"></div>
 
-      <div class="r">What it knows<br>(dangerous capability)</div>
-      <div class="c empty"></div><div class="c empty"></div><div class="c empty"></div>
-      <div class="c"><a href="#p-wmdp">WMDP</a><span class="m">hazardous knowledge</span></div>
-      <div class="c"><a href="#p-vct">VCT</a><span class="m">tacit wet-lab skill</span></div>
+      <div class="r"><b>What it knows</b><span>(dangerous capability)</span><i>Does it hold hazardous knowledge?</i></div>
+      <div class="c empty"></div>
+      <div class="c empty"></div>
+      <div class="c empty"></div>
+      <div class="c"><a href="#p-wmdp"><b class="en">10</b>WMDP</a><span class="m">hazardous knowledge</span></div>
+      <div class="c"><a href="#p-vct"><b class="en">12</b>VCT</a><span class="m">tacit wet-lab skill</span></div>
       <div class="c empty"></div>
 
-      <div class="r">What it does<br>(agents)</div>
-      <div class="c empty"></div><div class="c empty"></div><div class="c empty"></div>
-      <div class="c"><a href="#p-ad">AgentDojo</a><span class="m">prompt injection</span></div>
-      <div class="c"><a href="#p-art">ART</a><span class="m">human competition</span></div>
-      <div class="c"><a href="#p-ipi">IPI Arena</a><span class="m">injection + concealment</span></div>
+      <div class="r"><b>What it does</b><span>(agents)</span><i>Can an agent be hijacked into harmful actions?</i></div>
+      <div class="c empty"></div>
+      <div class="c empty"></div>
+      <div class="c empty"></div>
+      <div class="c"><a href="#p-ad"><b class="en">11</b>AgentDojo</a><span class="m">prompt injection</span></div>
+      <div class="c"><a href="#p-art"><b class="en">14</b>ART</a><span class="m">human competition</span></div>
+      <div class="c"><a href="#p-ipi"><b class="en">15</b>IPI Arena</a><span class="m">injection + concealment</span></div>
     </div>
     </div>
   </figure>
@@ -439,11 +480,14 @@
   <div class="legend">
     <span><b>Evidence key:</b> an unmarked claim was checked against a primary source; <sup class="ev">◐</sup> secondary source, search snippet or summarizing tool; <sup class="ev">○</sup> not verified.</span>
   </div>
-  <p class="note">Facts were checked against arXiv, venue pages, dataset repositories and model cards on 2026-10-13. Citation counts are Semantic Scholar. "Not found" means we searched and found nothing, which is weaker than "does not exist". Example items below are copied from the public datasets. Figures reproduced from papers are used under their Creative Commons licenses and credited under each figure; papers without a reuse license are linked, not copied.</p>
+  <details class="topic-all fine-print">
+    <summary>How we checked facts and used figures</summary>
+    <p>Facts were checked against arXiv, venue pages, dataset repositories and model cards on 2026-10-13. Citation counts are Semantic Scholar. "Not found" means we searched and found nothing, which is weaker than "does not exist". Example items below are copied from the public datasets. Figures reproduced from papers are used under their Creative Commons licenses and credited under each figure; papers without a reuse license are linked, not copied.</p>
+  </details>
   <p>Figure 2 puts the story on one time axis: for each benchmark, when it was released, when labs or evaluators first documented using it, and when it was called saturated, replaced or retired.</p>
   <!--FIG:lifecycle-->
   <figure>
-    <figcaption><strong>Figure 2.</strong> Life cycle of each benchmark, in order of release; the number before each name is its entry number. Hollow markers have an approximate position because the month is not stated in our sources. Only events with a source and a stated date are plotted, so absence of a marker does not mean absence of use. Hover a marker for its source. Data: release dates from the papers; adoption and replacement events from the system cards, blog posts, evaluations and later benchmarks listed in References (this script, <code>figures/build_figures.py</code>, holds each date and source).</figcaption>
+    <figcaption><strong>Figure 2.</strong> Life cycle of each benchmark, in release order; the number is the entry number. Hollow markers have an approximate date. Only events with a source and a stated date are plotted, so a missing marker does not mean no use. Hover a marker for its source. Data: <code>figures/build_figures.py</code>.</figcaption>
     <div class="sr-only">Text description of Figure 2: fifteen rows, one per benchmark, on a 2020 to 2026 time axis. Older benchmarks such as RealToxicityPrompts and TruthfulQA show use in 2023 reports and little after. StrongREJECT, WMDP, VCT, MASK and ART each show a saturation, replacement or retirement marker within one to two years of first lab use. IPI Arena, released in March 2026, shows three lab uses by October 2026 and no saturation marker yet.</div>
     <div class="scroll-x"><div style="min-width:760px"><svg viewBox="0 0 900 523" width="100%" role="img" aria-labelledby="lc-t lc-d" class="fig">
 <title id="lc-t">Life cycle of 15 safety benchmarks, 2020 to 2026</title>
@@ -574,14 +618,14 @@
   <p><b>Type of survey.</b> This is a narrative survey organised by theme and by era. It is <i>not</i> a systematic review: there was no pre-registered protocol, no dual screening and no formal quality scoring.</p>
   <p><b>Question.</b> How did safety evaluation of language models develop between 2020 and 2026, which benchmarks became influential, and what happened to them after release?</p>
   <p><b>Candidate pool.</b> We built a table of candidates for each year from 2020 to 2026, about 76 rows in total. Rows include benchmarks and datasets, and also some attack, tool and framework papers that we flagged as borderline. Sources searched: arXiv, the ACL Anthology, PMLR, NeurIPS and ICLR proceedings, Hugging Face, GitHub, the Semantic Scholar API (citation counts), lab model and system cards, and government and lab web pages.</p>
-  <p><b>Inclusion criteria, as applied.</b> (1) The benchmark evaluates LLM safety behavior and is publicly described. (2) There is evidence of influence: a peer-reviewed venue or award, citation counts, or verified use in lab model cards, government evaluations or leaderboards. (3) Together the set covers every era and each lineage in Figure 1. Excluded: general-capability benchmarks and standalone bias or fairness sets. Attack-only and tool-only papers appear only when needed to explain the story. Near-misses we examined in detail and kept as context: ToxiGen, BeaverTails, SORRY-Bench, AIR-Bench 2024, AILuminate and AgentHarm.</p>
+  <p><b>Inclusion criteria, as applied.</b> (1) The benchmark evaluates LLM safety behavior and is publicly described. (2) There is evidence of influence: a peer-reviewed venue or award, citation counts, or verified use in lab model cards, government evaluations or leaderboards. (3) Together the set covers every era and each category in Figure 1. Excluded: general-capability benchmarks and standalone bias or fairness sets. Attack-only and tool-only papers appear only when needed to explain the story. Near-misses we examined in detail and kept as context: ToxiGen, BeaverTails, SORRY-Bench, AIR-Bench 2024, AILuminate and AgentHarm.</p>
   <p class="note">[Author to confirm: the final selection of 15 was a judgement made from the candidate tables and verification notes, and the ranking rule was not written down in advance. Edit this paragraph if your process differed.]</p>
   <p><b>Verification.</b> For each benchmark we checked title, authors, venue, dataset size, citations and adoption claims against primary pages on 2026-10-13, and re-checked lab system cards afterwards. Where a claim could not be confirmed against a primary source it carries a marker (see the evidence key above). "Not found" means we searched and found nothing, which is weaker than "does not exist". Example items on this page were copied directly from the public datasets.</p>
   <h3 style="font-size:1.05rem;margin:14px 10px 6px">Limitations of this survey</h3>
   <ul class="plain">
     <li><span><b>Venue coverage is uneven.</b> Security venues (USENIX Security, IEEE S&amp;P, CCS, NDSS) were not searched systematically for most years, so not finding a security-venue paper is not evidence that none exists. The 2022 notes are thinnest on model-card adoption, 2025 blog and venue coverage is not exhaustive, and 2026 evidence is recent and mostly unreviewed.</span></li>
     <li><span><b>Some sources were hard to read.</b> A few model-card PDFs were read through text extraction, some web pages through a summarizing tool, and the Gemini 2.5 Pro model card was not accessible. Google's WMDP use therefore rests on the Gemini 2.5 technical report.</span></li>
-    <li><span><b>Citation counts are partial.</b> Semantic Scholar only, which undercounts arXiv-only work. Counts for RealToxicityPrompts, MASK and IPI Arena could not be retrieved because of rate limiting. Google Scholar was not used.</span></li>
+    <li><span><b>Citation counts are partial.</b> Semantic Scholar only, which undercounts arXiv-only work. Counts for five benchmarks (RealToxicityPrompts, AdvBench, MASK, ART and IPI Arena) could not be retrieved because of rate limiting. Google Scholar was not used.</span></li>
     <li><span><b>Numbers across sources are not comparable.</b> Labs use different metrics, attack sets and attempt budgets. We quote them to illustrate, not to rank models.</span></li>
     <li><span><b>Status labels and hand-offs are our interpretation.</b> They organise the evidence but are not published findings.</span></li>
     <li><span><b>Single reviewer, AI-assisted.</b> There was no independent second screener. See the AI-use statement.</span></li>
